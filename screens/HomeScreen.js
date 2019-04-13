@@ -10,16 +10,13 @@ import {
   View,
 } from 'react-native';
 import {widthPercentageToDP as wp, heightPercentageToDP as hp} from 'react-native-responsive-screen';
-import { WebBrowser } from 'expo';
-
 import Beach from '../assets/images/Beach.jpg';
 import BeachTides from '../assets/images/BeachTides.png';
-const window = Dimensions.get('window');
-const imageDimensions = {
-  height: window.height,
-  width: window.width
-}
+import { SearchForm } from '../components/SearchForm/SearchForm';
 
+
+const window = Dimensions.get('window');
+const imageDimensions = { height: window.height, width: window.width };
 export default class HomeScreen extends React.Component {
 
   render() {
@@ -32,6 +29,7 @@ export default class HomeScreen extends React.Component {
           <View style={styles.imageContainer}>
             <Image style={styles.image} source={BeachTides} />
           </View>
+          <View></View>
         </ScrollView>
       </View>
     );
@@ -64,6 +62,7 @@ export default class HomeScreen extends React.Component {
 const styles = StyleSheet.create({
   imageContainer: {
     flex: 1,
+    height: hp('15%'),
     backgroundColor: 'white',
     alignItems: 'center'
   },
