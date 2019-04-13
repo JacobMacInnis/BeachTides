@@ -1,6 +1,7 @@
-import React from 'react';
+/*eslint-disable */
+import React from 'react'; 
+/*eslint-disable */
 import { createAppContainer, createSwitchNavigator } from 'react-navigation';
-
 import MainTabNavigator from './MainTabNavigator';
 
 export default createAppContainer(createSwitchNavigator({

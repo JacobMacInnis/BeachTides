@@ -8,6 +8,7 @@ import {
   ScrollView,
   Image
 } from 'react-native';
+import { WebBrowser } from 'expo';
 import Beach from '../assets/images/Beach.jpg';
 
 let width = Dimensions.get('window').width;
