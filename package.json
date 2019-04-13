@@ -15,10 +15,14 @@
     "expo": "^32.0.0",
     "react": "16.5.0",
     "react-native": "https://github.com/expo/react-native/archive/sdk-32.0.0.tar.gz",
+    "react-native-responsive-fontsize": "^0.1.8",
+    "react-native-responsive-screen": "^1.2.1",
     "react-navigation": "^3.0.9"
   },
   "devDependencies": {
     "babel-preset-expo": "^5.0.0",
+    "eslint": "^5.16.0",
+    "eslint-plugin-react": "^7.12.4",
     "jest-expo": "^32.0.0"
   },
   "private": true
