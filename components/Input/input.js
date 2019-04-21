@@ -1,6 +1,5 @@
 import React from 'react';
-import './search-form-input.css';
-import { reduxForm } from 'redux-form';
+import { View, Text } from 'react-native';
 
  export class Input extends React.Component  {
 
@@ -8,33 +7,21 @@ import { reduxForm } from 'redux-form';
     const Element = this.props.element || 'input';
     let error;
     if (this.props.meta.touched && this.props.meta.error) {
-        error = <div className="form-error">{this.props.meta.error}</div>;
+        error = <View><Text className="form-error">{this.props.meta.error}</Text></View>;
     }
 
     let warning;
     if (this.props.meta.touched && this.props.meta.warning) {
         warning = (
-            <div className="form-warning">{this.props.meta.warning}</div>
+            <View><Text className="form-warning">{this.props.meta.warning}</Text></View>
         );
     }
     return (
-      <div className={`search-form-${this.props.input.name}`}>
-        <label className={`search-form-${this.props.input.name}-label`} htmlFor={this.props.input.name}>
-          {this.props.label}
-          {error}
-          {warning}
-        </label>
-        <Element 
-          {...this.props.input}
-          className={`form-${this.props.input.name}`}
-          id={this.props.input.name}
-          type={this.props.type}
-          placeholder={this.props.placeholder}
-          ref={input => (this.input = input)}
-        />
-      </div>
-    )
+      <View>
+        <Text>Hellow</Text>
+      </View>
+    );
   }
 }
 
-export default reduxForm({ form: 'search' })(Input);
+export default Input;
