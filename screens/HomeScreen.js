@@ -28,28 +28,28 @@ export default class HomeScreen extends React.Component {
   
   render() {
     return (
-    <ScrollView
-      scrollEventThrottle={16}>
-      <View style={{flex: 1, backgroundColor: 'pink', paddingTop: 20}}>
-        <Text style={{fontSize: 24, fontWeight: '700', paddingHorizontal: 20}}>Test</Text>
+      <View style={{flex: 1}} >
+        <View > 
+          <View>
+            <Image style={[imageDimensions, {position: 'absolute'}]} source={Beach} />
+          </View>
+        </View>
+        <View style={styles.scrollView}>
+            <View style={styles.imageContainer}>
+              <Image style={styles.image} source={BeachTides} />
+            </View>
+            <View style={styles.secondContainer}>
+            </View>
+            <View style={styles.searchContainer}>
+              <SearchForm />
+            </View>
+            <View style={styles.bottomContainer}>
+            </View>
+          </View>
       </View>
-        {/* <View style={{flex: 100, backgroundColor: 'powderblue'}} />
-        <View style={{flex: 100, backgroundColor: 'skyblue'}} />
-        <View style={{flex: 100, backgroundColor: 'steelblue'}} />
-        <View style={{flex: 100, backgroundColor: 'powderblue'}} />
-        <View style={{flex: 100, backgroundColor: 'skyblue'}} />
-        <View style={{flex: 100, backgroundColor: 'steelblue'}} />
-        <View style={{flex: 100, backgroundColor: 'powderblue'}} />
-        <View style={{flex: 100, backgroundColor: 'skyblue'}} />
-        <View style={{flex: 100, backgroundColor: 'steelblue'}} />       */}
-    </ScrollView>
-        
     );
   }
-  // <View style={{flex: 1}}> 
-  //        <View>
-  //         <Image style={[imageDimensions, {position: 'absolute'}]} source={Beach} />
-  //       </View>
+  
   
   _maybeRenderDevelopmentModeWarning() {
     if (__DEV__) {
@@ -75,19 +75,6 @@ export default class HomeScreen extends React.Component {
   }
 }
 
-{/* <ScrollView>
-          <View style={styles.scrollView}>
-            <View style={styles.imageContainer}>
-              <Image style={styles.image} source={BeachTides} />
-            </View>
-            <View style={styles.secondContainer}>
-            </View>
-            <View style={styles.searchContainer}>
-              <SearchForm />
-            </View>
-          </View>
-        </ScrollView> */}
-
 
 
 const styles = StyleSheet.create({
@@ -95,11 +82,11 @@ const styles = StyleSheet.create({
     flex: 1
   },  
   imageContainer: {
-    flex: 1,
-    // height: hp('15%'),
+    flex: 3,
+    height: hp('15%'),
     backgroundColor: 'white',
-    // alignItems: 'center',
-    // paddingTop: hp('4%'),
+    alignItems: 'center',
+    paddingTop: hp('4%'),
     // paddingBottom: hp('1%')
   },
   image: {
@@ -108,12 +95,15 @@ const styles = StyleSheet.create({
     resizeMode: 'contain'
   },
   secondContainer: {
-    flex: 2,
-    backgroundColor: 'blue'
+    flex: 6,
+    // backgroundColor: 'blue'
   },
   searchContainer: {
-    flex: 2,
-    backgroundColor: 'grey'
+    flex: 5,
+    alignItems: 'center'
+  },
+  bottomContainer: {
+    flex: 1
   },
   container: {
       flex: 1,
