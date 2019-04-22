@@ -6,7 +6,6 @@ import {
   ScrollView,
   StyleSheet,
   Text,
-  TouchableOpacity,
   View,
   StatusBar, 
 } from 'react-native';
@@ -82,7 +81,7 @@ const styles = StyleSheet.create({
     flex: 1
   },  
   imageContainer: {
-    flex: 3,
+    flex: 5,
     height: hp('15%'),
     backgroundColor: 'white',
     alignItems: 'center',
@@ -95,11 +94,11 @@ const styles = StyleSheet.create({
     resizeMode: 'contain'
   },
   secondContainer: {
-    flex: 6,
+    flex: 10,
     // backgroundColor: 'blue'
   },
   searchContainer: {
-    flex: 5,
+    flex: 10,
     alignItems: 'center'
   },
   bottomContainer: {

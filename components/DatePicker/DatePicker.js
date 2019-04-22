@@ -35,8 +35,8 @@ export default class MyDatePicker extends Component {
             backgroundColor: 'white',
           },
           dateText: {
-            fontSize: 20,
-            fontWeight: '400',
+            // fontSize: 20,
+            // fontWeight: '400',
           }
           // ... You can check the source to find the other keys.
         }}
