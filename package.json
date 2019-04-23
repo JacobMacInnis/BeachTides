@@ -19,7 +19,10 @@
     "react-native-datepicker": "^1.7.2",
     "react-native-responsive-fontsize": "^0.1.8",
     "react-native-responsive-screen": "^1.2.1",
-    "react-navigation": "^3.0.9"
+    "react-navigation": "^3.0.9",
+    "react-redux": "^7.0.2",
+    "redux": "^4.0.1",
+    "redux-thunk": "^2.3.0"
   },
   "devDependencies": {
     "babel-preset-expo": "^5.0.0",

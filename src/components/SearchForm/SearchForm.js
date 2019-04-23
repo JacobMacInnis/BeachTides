@@ -13,7 +13,10 @@ import RF from "react-native-responsive-fontsize";
 export class SearchForm extends React.Component {
   constructor(props) {
     super(props);
-    this.state = { text: 'Zip or City, State' };
+    this.state = { 
+      text: 'Zip or City, State',
+      date: ''
+    };
   }
 
   onSubmit(values) {
@@ -35,16 +38,18 @@ export class SearchForm extends React.Component {
           <Text style={{  }}>Please Enter Zip or City, State</Text>
         </View>
         <View style={{ flex: 1 }}></View>
-        <View style={{ flex: 1 }}> 
+        <View style={{ flex: 3 }}> 
           <TextInput style={{
             textAlign: 'center',
-            
             width: wp('40%'),
-            borderRadius: 10,
+            height: '100%',
+            borderRadius: 6,
             fontSize: 18,
             backgroundColor: 'white', 
             borderColor: 'gray', 
             borderWidth: 1}}
+            clearTextOnFocus={true}
+            placeholder={'Zip or City, State'}
             onChangeText={(text) => this.setState({text})}
             value={this.state.text}
           ></TextInput>
