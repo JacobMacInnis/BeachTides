@@ -7,8 +7,18 @@ import {
   TextInput
 } from 'react-native';
 import {widthPercentageToDP as wp, heightPercentageToDP as hp} from 'react-native-responsive-screen';
+import { connect } from 'react-redux';
+import { setDate } from '../../../redux/actions/searchActions';
 import DatePicker from '../DatePicker/DatePicker';
+import LocationInput from '../LocationInput/LocationInput';
 import RF from "react-native-responsive-fontsize";
+
+const mapStateToProps = state => {
+  console.log(state);
+  return {
+    search: state
+  }
+}
 
 export class SearchForm extends React.Component {
   constructor(props) {
@@ -39,20 +49,7 @@ export class SearchForm extends React.Component {
         </View>
         <View style={{ flex: 1 }}></View>
         <View style={{ flex: 3 }}> 
-          <TextInput style={{
-            textAlign: 'center',
-            width: wp('40%'),
-            height: '100%',
-            borderRadius: 6,
-            fontSize: 18,
-            backgroundColor: 'white', 
-            borderColor: 'gray', 
-            borderWidth: 1}}
-            clearTextOnFocus={true}
-            placeholder={'Zip or City, State'}
-            onChangeText={(text) => this.setState({text})}
-            value={this.state.text}
-          ></TextInput>
+          <LocationInput />
         </View>
         <View style={{ flex: 1 }}></View>
         <View style={{ flex: 1 }}>
@@ -96,3 +93,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   }
 });
+
+const mapDispatchToProps = { setDate };
+
+export default connect(mapStateToProps, mapDispatchToProps)(SearchForm);

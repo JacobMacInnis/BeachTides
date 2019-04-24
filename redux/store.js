@@ -2,7 +2,7 @@ import { createStore, combineReducers, applyMiddleware } from 'redux';
 import thunk from 'redux-thunk';
 
 // Import Reducers
-import searchReducer from './redux/reducers/searchReducer';
+import searchReducer from './reducers/searchReducer';
 
 const rootReducer = combineReducers({
     search: searchReducer,

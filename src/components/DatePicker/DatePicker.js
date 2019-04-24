@@ -1,19 +1,27 @@
 import React, { Component } from 'react';
 import DatePicker from 'react-native-datepicker';
-import moment from 'moment';
 import { widthPercentageToDP } from 'react-native-responsive-screen';
+import { connect } from 'react-redux';
+import { setDate } from '../../../redux/actions/searchActions';
 
-export default class MyDatePicker extends Component {
-  constructor(props){
-    super(props)
-    this.state = {date: `${moment().format('MM DD YYYY')}`}
+const mapStateToProps = state => {
+  return{
+    date: state.search.date
+  };
+};
+
+class MyDatePicker extends Component {
+
+  setDate(date) {
+    return this.props.dispatch(setDate(date));
   }
 
   render(){
+    let date = this.props.date;
     return (
       <DatePicker
         style={{width: widthPercentageToDP('40%')}}
-        date={this.state.date}
+        date={date}
         mode="date"
         placeholder="select date"
         format="MM-DD-YYYY"
@@ -40,8 +48,10 @@ export default class MyDatePicker extends Component {
           }
           // ... You can check the source to find the other keys.
         }}
-        onDateChange={(date) => {this.setState({date: date})}}
+        onDateChange={(date) => {this.setDate(date)}}
       />
     )
   }
 }
+
+export default connect(mapStateToProps)(MyDatePicker);
