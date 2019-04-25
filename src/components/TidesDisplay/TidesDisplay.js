@@ -2,29 +2,24 @@ import React from 'react';
 import {
   StyleSheet,
   Text,
-  TouchableOpacity,
   View,
-  TextInput
 } from 'react-native';
 import {widthPercentageToDP as wp, heightPercentageToDP as hp} from 'react-native-responsive-screen';
 import { connect } from 'react-redux';
-import { setDate } from '../../../redux/actions/searchActions';
-import DatePicker from '../DatePicker/DatePicker';
-import LocationInput from '../LocationInput/LocationInput';
 import RF from "react-native-responsive-fontsize";
 
 const mapStateToProps = state => {
-  const { tidesData } = state.search;
+  const { tideData } = state.search;
   return {
-    tidesData
+    tideData
   };
 };
 
-export class TidesDisplay extends React.Component {
+export class TideDisplay extends React.Component {
 
   render() {
-    const { tidesData } = this.props;
-    console.log('TideData', tidesData)
+    const { tideData } = this.props;
+    console.log('TideData', tideData)
     return (
       <View style={styles.container}>
       </View>
@@ -39,6 +34,4 @@ const styles = StyleSheet.create({
   }
 });
 
-const mapDispatchToProps = { setDate };
-
-export default connect(mapStateToProps, mapDispatchToProps)(TidesDisplay);
+export default connect(mapStateToProps)(TideDisplay);

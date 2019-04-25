@@ -1,3 +1,5 @@
+import { connect } from 'react-redux';
+import { bindActionCreators } from 'redux';
 import React from 'react';
 import {
   StyleSheet,
@@ -7,11 +9,10 @@ import {
   TextInput
 } from 'react-native';
 import {widthPercentageToDP as wp, heightPercentageToDP as hp} from 'react-native-responsive-screen';
-import { connect } from 'react-redux';
-import { setDate } from '../../../redux/actions/searchActions';
 import DatePicker from '../DatePicker/DatePicker';
 import LocationInput from '../LocationInput/LocationInput';
 import RF from "react-native-responsive-fontsize";
+import { getTides } from '../../../redux/actions/searchActions';
 
 const mapStateToProps = state => {
   const { location, date } = state.search;
@@ -31,11 +32,12 @@ export class SearchForm extends React.Component {
   }
 
   onSubmit() {
-    const { location, date } = this.props;
-    return this.props.dispatch(fetchLocation(location, date));
+    const { dispatch, location, date } = this.props;
+    return dispatch(getTides(location, date));
   };
 
   render() {
+    console.log('SEARCHFORM', this.props.dispatch)
     return (
       <View style={styles.searchFormContainer}>
         <View style={{ flex: 1 }}></View>
@@ -61,7 +63,9 @@ export class SearchForm extends React.Component {
         <View style={{ flex: 1 }}></View>
         <View style={{ flex: 2 }}>
           <TouchableOpacity 
-            style={{ borderColor: 'grey' }} type='submit'>
+            style={{ borderColor: 'grey' }} 
+            type='submit'
+            onPress={() => this.onSubmit()}>
             <Text 
               style={{ 
                 // fontSize: 21, 
@@ -93,6 +97,16 @@ const styles = StyleSheet.create({
   }
 });
 
-const mapDispatchToProps = { setDate };
+// function mapDispatchToProps(dispatch) { 
+//   return {
+//     getTides: () =>  dispatch({ type: getTides })
+//   };
+// };
+
+const mapDispatchToProps = (dispatch) => {
+  const boundActionCreators = bindActionCreators(getTides, dispatch);
+  const allActionProps = {...boundActionCreators, dispatch}
+  return allActionProps;
+}
 
 export default connect(mapStateToProps, mapDispatchToProps)(SearchForm);

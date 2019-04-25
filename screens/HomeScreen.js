@@ -15,8 +15,8 @@ import {widthPercentageToDP as wp, heightPercentageToDP as hp} from 'react-nativ
 import Beach from '../assets/images/Beach.jpg';
 import BeachTides from '../assets/images/BeachTides.png';
 // COMPONENTS
-import { SearchForm } from '../src/components/SearchForm/SearchForm';
-import { TidesDisplay } from '../src/components/TidesDisplay/TidesDisplay';
+import SearchForm from '../src/components/SearchForm/SearchForm';
+import TideDisplay from '../src/components/TidesDisplay/TidesDisplay';
 import { DismissKeyboard } from '../src/components/DismissKeyboard/DismissKeyboard';
 import KeyboardShift from '../src/components/KeyboardShift/KeyboardShift';
 
@@ -46,7 +46,7 @@ export default class HomeScreen extends React.Component {
               <Image style={styles.image} source={BeachTides} />
             </View>
             <View style={styles.secondContainer}>
-              <TidesDisplay />
+              <TideDisplay />
             </View>
             <View style={styles.searchContainer}>
               <SearchForm />
