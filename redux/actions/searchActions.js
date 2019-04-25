@@ -30,9 +30,7 @@ export const getTidesSuccess = tideData => ({
 });
 
 export const getTides = (location, date) => dispatch => {
-  console.log('tring;')
   dispatch(getTidesRequest());
-  console.log('dispatchingTidesRequest')
   return fetch(`${API_BASE_URL}/location?location=${location}&date=${date}`)
   .then(res => {
       if (!res.ok) {
@@ -45,7 +43,7 @@ export const getTides = (location, date) => dispatch => {
     dispatch(getTidesSuccess(tideData));
   })
   .catch(error => {
-    console.log('dispatchingTidesError')
+    console.log('dispatchingTidesError', error)
     dispatch(getTidesError(error));
   });
 }
