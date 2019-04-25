@@ -40,7 +40,7 @@ export class SearchForm extends React.Component {
     return (
       <View style={styles.searchFormContainer}>
         <View style={{ flex: 1 }}></View>
-        <View style={{ flex: 2, borderWidth: 1, opacity: 1, borderColor: 'black', backgroundColor: 'white', opacity: 1}}>
+        <View style={{ flex: 2, backgroundColor: 'white', opacity: 1}}>
           <Text style={{ fontSize: RF(3), fontWeight: '700', }}>SEARCH TIDES</Text>
         </View>
         <View style={{ flex: 1 }}></View>

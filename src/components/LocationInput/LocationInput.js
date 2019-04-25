@@ -2,6 +2,7 @@ import React from 'react';
 import { TextInput } from 'react-native';
 import {widthPercentageToDP as wp, heightPercentageToDP as hp} from 'react-native-responsive-screen';
 import { connect } from 'react-redux';
+import { setLocation } from '../../../redux/actions/searchActions';
 
 const mapStateToProps = state => {
   return {
@@ -11,19 +12,9 @@ const mapStateToProps = state => {
 
 export class LocationInput extends React.Component {
   
-  constructor(props) {
-    super(props);
-    this.state = { 
-      text: 'Zip or City, State',
-    };
+  setLocation(text) {
+    return this.props.dispatch(setLocation(text));
   }
-
-  onSubmit(values) {
-    const location = values.location || '';
-    const date = values.date;
-    return this.props.dispatch(
-    fetchLocation(location, date))
-  };
 
   render() {
     return (
@@ -38,8 +29,8 @@ export class LocationInput extends React.Component {
         borderWidth: 1}}
         clearTextOnFocus={true}
         placeholder={'Zip or City, State'}
-        onChangeText={(text) => this.setState({text})}
-        value={this.state.text}>
+        onChangeText={(text) => this.setLocation(text)}
+        value={this.props.location}>
       </TextInput>
     )
   }
