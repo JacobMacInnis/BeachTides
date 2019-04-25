@@ -19,9 +19,9 @@ export class TideDisplay extends React.Component {
 
   render() {
     const { tideData } = this.props;
-    console.log('TideData', tideData)
     return (
       <View style={styles.container}>
+      
       </View>
     )
   }

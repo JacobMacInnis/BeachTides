@@ -39,11 +39,9 @@ export const getTides = (location, date) => dispatch => {
       return res.json();
   })
   .then(tideData => {
-    console.log('dispatchingTidesSuccess')
     dispatch(getTidesSuccess(tideData));
   })
   .catch(error => {
-    console.log('dispatchingTidesError', error)
     dispatch(getTidesError(error));
   });
 }
