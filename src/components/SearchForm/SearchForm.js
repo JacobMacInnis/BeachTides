@@ -6,7 +6,6 @@ import {
   Text,
   TouchableOpacity,
   View,
-  TextInput
 } from 'react-native';
 import {widthPercentageToDP as wp, heightPercentageToDP as hp} from 'react-native-responsive-screen';
 import DatePicker from '../DatePicker/DatePicker';
@@ -37,7 +36,6 @@ export class SearchForm extends React.Component {
   };
 
   render() {
-    console.log('SEARCHFORM', this.props.dispatch)
     return (
       <View style={styles.searchFormContainer}>
         <View style={{ flex: 1 }}></View>
@@ -97,11 +95,6 @@ const styles = StyleSheet.create({
   }
 });
 
-// function mapDispatchToProps(dispatch) { 
-//   return {
-//     getTides: () =>  dispatch({ type: getTides })
-//   };
-// };
 
 const mapDispatchToProps = (dispatch) => {
   const boundActionCreators = bindActionCreators(getTides, dispatch);
