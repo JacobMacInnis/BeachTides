@@ -14,11 +14,12 @@ import LocationInput from '../LocationInput/LocationInput';
 import RF from "react-native-responsive-fontsize";
 
 const mapStateToProps = state => {
-  console.log(state);
+  const { location, date } = state.search;
   return {
-    search: state
-  }
-}
+    location,
+    date
+  };
+};
 
 export class SearchForm extends React.Component {
   constructor(props) {
@@ -29,11 +30,9 @@ export class SearchForm extends React.Component {
     };
   }
 
-  onSubmit(values) {
-    const location = values.location || '';
-    const date = values.date;
-    return this.props.dispatch(
-    fetchLocation(location, date))
+  onSubmit() {
+    const { location, date } = this.props;
+    return this.props.dispatch(fetchLocation(location, date));
   };
 
   render() {
