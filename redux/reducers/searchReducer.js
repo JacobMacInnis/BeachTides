@@ -4,7 +4,7 @@ import { SET_LOCATION, SET_DATE, GET_TIDES_REQUEST, GET_TIDES_SUCCESS, GET_TIDES
 const initialState = {
   location: 'Zip or City, State',
   date: `${moment().format('MM DD YYYY')}`,
-  tideData: [],
+  tideData: null,
   loading: false,
   error: null,
 };
@@ -22,7 +22,7 @@ export default function reducer(state = initialState, action) {
 		return Object.assign({}, state, {
       loading: true,
       error: null,
-      tideData: []
+      tideData: null
 		});
 	} else if (action.type === GET_TIDES_SUCCESS) {
 		return Object.assign({}, state, {
@@ -34,7 +34,7 @@ export default function reducer(state = initialState, action) {
 		return Object.assign({}, state, {
       loading: false,
       error: action.error,
-      tideData: []
+      tideData: null
 		});
 	} else {
     return state;
