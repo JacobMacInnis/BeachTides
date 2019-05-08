@@ -20,7 +20,7 @@ export class LocationInput extends React.Component {
     return (
       <TextInput style={{
         textAlign: 'center',
-        width: wp('40%'),
+        width: wp('50%'),
         height: '100%',
         borderRadius: 6,
         fontSize: 18,

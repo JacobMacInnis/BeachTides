@@ -51,8 +51,6 @@ export default class HomeScreen extends React.Component {
             <View style={styles.searchContainer}>
               <SearchForm />
             </View>
-            <View style={styles.bottomContainer}>
-            </View>
           </View>
       </View>
       </DismissKeyboard>
@@ -93,7 +91,7 @@ const styles = StyleSheet.create({
     flex: 1
   },  
   imageContainer: {
-    flex: 5,
+    flex: 4,
     height: hp('15%'),
     backgroundColor: 'white',
     alignItems: 'center',
@@ -110,7 +108,7 @@ const styles = StyleSheet.create({
     // backgroundColor: 'blue'
   },
   searchContainer: {
-    flex: 10,
+    flex: 7,
     alignItems: 'center'
   },
   bottomContainer: {

@@ -20,7 +20,7 @@ class MyDatePicker extends Component {
     let date = this.props.date;
     return (
       <DatePicker
-        style={{width: widthPercentageToDP('40%')}}
+        style={{width: widthPercentageToDP('50%')}}
         date={date}
         mode="date"
         placeholder="select date"
@@ -43,6 +43,7 @@ class MyDatePicker extends Component {
             backgroundColor: 'white',
           },
           dateText: {
+            fontSize: 18,
             // fontSize: 20,
             // fontWeight: '400',
           }

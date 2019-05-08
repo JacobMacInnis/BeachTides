@@ -6,12 +6,14 @@ import {
   Text,
   TouchableOpacity,
   View,
+  Image
 } from 'react-native';
 import {widthPercentageToDP as wp, heightPercentageToDP as hp} from 'react-native-responsive-screen';
 import DatePicker from '../DatePicker/DatePicker';
 import LocationInput from '../LocationInput/LocationInput';
 import RF from "react-native-responsive-fontsize";
 import { getTides } from '../../../redux/actions/searchActions';
+import BeachTides from '../../../assets/images/BeachTides.png';
 
 const mapStateToProps = state => {
   const { location, date } = state.search;
@@ -38,46 +40,44 @@ export class SearchForm extends React.Component {
   render() {
     return (
       <View style={styles.searchFormContainer}>
-        <View style={{ flex: 1 }}></View>
-        <View style={{ flex: 2, backgroundColor: 'white', opacity: 1}}>
-          <Text style={{ fontSize: RF(3), fontWeight: '700', }}>SEARCH TIDES</Text>
+        <View style={styles.searchFormMargin}></View>
+        <View style={styles.searchForm}>
+          <View style={{ flex: 1 }}></View>
+          <View style={{ flex: 3}}>
+            <Image style={styles.image} source={BeachTides} />
+          </View>
+          <View style={{ flex: 1 }}></View>
+          <View style={{ flex: 2 }}> 
+            <LocationInput />
+          </View>
+          <View style={{ flex: 1 }}></View>
+          <View style={{ flex: 2 }}>
+            <DatePicker />
+          </View>
+          <View style={{ flex: 2 }}></View>
+          <View style={{ flex: 2 }}>
+            <TouchableOpacity 
+              style={{ borderColor: 'grey', width: wp('30%') }} 
+              type='submit'
+              onPress={() => this.onSubmit()}>
+              <Text 
+                style={{
+                  textAlign: 'center',
+                  fontWeight: '900',
+                  // fontSize: 21, 
+                  borderWidth: 2, 
+                  borderColor: 'grey', 
+                  borderRadius: 10,
+                  padding: 4,
+                  backgroundColor: 'white'
+                }}>
+                SUBMIT
+              </Text>
+            </TouchableOpacity>
+          </View>
+          <View style={{ flex: 1 }}></View>
         </View>
-        <View style={{ flex: 1 }}></View>
-        <View style={{ flex: 1 }}>
-          <Text style={{  }}>Please Enter Zip or City, State</Text>
-        </View>
-        <View style={{ flex: 1 }}></View>
-        <View style={{ flex: 3 }}> 
-          <LocationInput />
-        </View>
-        <View style={{ flex: 1 }}></View>
-        <View style={{ flex: 1 }}>
-            <Text>Press To Change Date</Text>
-        </View>
-        <View style={{ flex: 1 }}></View>
-        <View>
-          <DatePicker />
-        </View>
-        <View style={{ flex: 1 }}></View>
-        <View style={{ flex: 2 }}>
-          <TouchableOpacity 
-            style={{ borderColor: 'grey' }} 
-            type='submit'
-            onPress={() => this.onSubmit()}>
-            <Text 
-              style={{ 
-                // fontSize: 21, 
-                borderWidth: 2, 
-                borderColor: 'grey', 
-                borderRadius: 10,
-                padding: 4,
-                backgroundColor: 'white'
-              }}>
-              SUBMIT
-            </Text>
-          </TouchableOpacity>
-        </View>
-        <View style={{ flex: 1 }}></View>
+        <View style={styles.searchFormMargin}></View>
       </View>
     )
   }
@@ -86,12 +86,22 @@ export class SearchForm extends React.Component {
 const styles = StyleSheet.create({
   searchFormContainer: {
     flex: 1,
+  },
+  searchForm:  {
+    flex: 15,
     borderRadius: 10,
-    paddingTop: hp('2%'),
-    width: wp('90%'),
     backgroundColor: 'white',
-    opacity: .85,
+    width: wp('90%'),
     alignItems: 'center',
+    opacity: .85,
+  },
+  searchFormMargin: {
+    flex: 1,
+  },
+  image: {
+    height: hp('6%'),
+    width: wp('80%'),
+    resizeMode: 'contain'
   }
 });
 
