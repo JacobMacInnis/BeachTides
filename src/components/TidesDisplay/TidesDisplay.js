@@ -24,6 +24,7 @@ const mapStateToProps = state => {
 };
 
 function makeTides(tideData) {
+  const { location } = tideData;
   const tideArray = tideData.tideData;
   let currentDate = null;
   const groupedTides = [];
@@ -51,7 +52,7 @@ function makeTides(tideData) {
           justifyContent: 'center',
           height: hp('30%'),
           width: wp('85%'),
-          marginTop: hp('2%')
+          marginBottom: hp('2%')
         }}
       >
         <Text 
@@ -78,20 +79,20 @@ export class TideDisplay extends React.Component {
     let { tideData } = this.props;
     let tideDisplay = null;
     let tides = null;
-    let days = null;
     if (tideData) {
-      console.log('yes tide data')
       const { city, state } = tideData;
       tides = makeTides(tideData);
-      // tideDisplay = <View>
-      //   <View><Text style={{ textAlign: 'center', fontSize: RF(3), color: "white"}}>{city}, {state}</Text></View>
-      //   {tides}
-      // </View>
+      tideDisplay = <View>
+        <View style={{ margin: hp('2%'), padding: hp('1%'), borderRadius: 6, backgroundColor: 'rgba( 255, 255, 255, 0.8)'}}>
+          <Text style={{ textAlign: 'center', fontSize: RF(4), fontWeight: '900' }}>{city}, {state}</Text>
+        </View>
+        {tides}
+      </View>
     }
     return (
       <ScrollView>
         <View style={styles.container}>
-          {tides}
+          {tideDisplay}
         </View>
       </ScrollView>
     )
