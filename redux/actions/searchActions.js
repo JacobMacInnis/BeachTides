@@ -1,3 +1,4 @@
+import { AsyncStorage } from 'react-native';
 import { API_BASE_URL } from '../../config';
 
 export const SET_LOCATION = 'SET_LOCATION';
@@ -31,17 +32,39 @@ export const getTidesSuccess = tideData => ({
 
 export const getTides = (location, date) => dispatch => {
   dispatch(getTidesRequest());
-  return fetch(`${API_BASE_URL}/location?location=${location}&date=${date}`)
+  return AsyncStorage.getItem('TIDES')
+  .then(localTideData => {
+    console.log('tideData ==>', localTideData);
+    if (localTideData !== null) {
+      console.log(localTideData, 'LOCAL TIDE DATA')
+      return dispatch(getTidesSuccess(localTideData));
+    }
+    console.log('AsyncStorage does not contain data');
+  })
+  .then(() => {
+    console.log('Sending Request for Tides');
+    return fetch(`${API_BASE_URL}/location?location=${location}&date=${date}`);
+  })
   .then(res => {
       if (!res.ok) {
+        console.log('Received Error');
         return res.json().then(data => Promise.reject(data))
       }
+      console.log('Received Tides Response');
       return res.json();
   })
   .then(tideData => {
+    const date = tideData.date;
+    console.log(date, 'DATE')
     dispatch(getTidesSuccess(tideData));
+    let tideObject = {
+      tideData: [ 1, 2, 3 ]
+    };
+    tideObject = JSON.stringify(tideObject);
+    return AsyncStorage.setItem('TIDES', tideObject);
   })
   .catch(error => {
+    console.log('Received Error');
     dispatch(getTidesError(error));
   });
 }

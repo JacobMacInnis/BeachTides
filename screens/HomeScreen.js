@@ -1,4 +1,5 @@
 import React from 'react';
+import { connect } from 'react-redux';
 import {
   Dimensions,
   Image,
@@ -8,8 +9,9 @@ import {
   Text,
   View,
   StatusBar, 
+  SafeAreaView
 } from 'react-native';
-import { WebBrowser } from 'expo';
+import { WebBrowser, AdMobBanner } from 'expo';
  import { MonoText } from '../src/components/StyledText';
 import {widthPercentageToDP as wp, heightPercentageToDP as hp} from 'react-native-responsive-screen';
 import Beach from '../assets/images/Beach.jpg';
@@ -24,13 +26,31 @@ import KeyboardShift from '../src/components/KeyboardShift/KeyboardShift';
 const window = Dimensions.get('window');
 const imageDimensions = { height: window.height, width: window.width };
 
-export default class HomeScreen extends React.Component {
-  
+const mapStateToProps = state => {
+  const { tideData, loading } = state.search;
+  return {
+    tideData,
+
+  };
+};
+
+export class HomeScreen extends React.Component {
   static navigationOptions = {
     header: null,
   };
+
+  bannerError() {
+    console.log("An error");
+    return;
+  }
   
   render() {
+    const adUnitID = "ca-app-pub-9496467954516087/3186808768";
+    if (Platform.OS === 'android') {
+      adUnitID = "ca-app-pub-9496467954516087/1929567412"
+    }
+    
+    const { tideData, loading } = this.props;
     return (
       <KeyboardShift>
         {() => (
@@ -43,9 +63,21 @@ export default class HomeScreen extends React.Component {
         </View>
         <View style={styles.scrollView}>
             <View style={styles.imageContainer}>
+              { (tideData || loading) ? 
+              <View style={{ alignContent: 'center' }}>
+                <AdMobBanner
+                  style={styles.bottomBanner}
+                  bannerSize="largeBanner"
+                  adUnitID={adUnitID}
+                  testDeviceID="EMULATOR"
+                  didFailToReceiveAdWithError={this.bannerError}
+                />
+              </View> :
               <Image style={styles.image} source={BeachTides} />
+              }
             </View>
             <View style={styles.secondContainer}>
+            {/* { loading ? : <TideDisplay /> } */}
               <TideDisplay />
             </View>
             <View style={styles.searchContainer}>
@@ -84,19 +116,18 @@ export default class HomeScreen extends React.Component {
   }
 }
 
-
+export default connect(mapStateToProps)(HomeScreen);
 
 const styles = StyleSheet.create({
   scrollView: {
     flex: 1
   },  
   imageContainer: {
-    flex: 4,
-    height: hp('15%'),
+    flex: 3,
+    height: hp('25%'),
     backgroundColor: 'white',
     alignItems: 'center',
     paddingTop: hp('4%'),
-    // paddingBottom: hp('1%')
   },
   image: {
     flex: 1,
