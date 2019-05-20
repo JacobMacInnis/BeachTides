@@ -9,12 +9,15 @@ import {
   Text,
   View,
   StatusBar, 
-  SafeAreaView
+  SafeAreaView,
+  Animated,
+  Easing
 } from 'react-native';
 import { WebBrowser, AdMobBanner } from 'expo';
  import { MonoText } from '../src/components/StyledText';
 import {widthPercentageToDP as wp, heightPercentageToDP as hp} from 'react-native-responsive-screen';
 import Beach from '../assets/images/Beach.jpg';
+import BeachTidesLogo from '../assets/images/BeachTidesLogo.png';
 import BeachTides from '../assets/images/BeachTides.png';
 // COMPONENTS
 import SearchForm from '../src/components/SearchForm/SearchForm';
@@ -30,9 +33,29 @@ const mapStateToProps = state => {
   const { tideData, loading } = state.search;
   return {
     tideData,
-
+    loading
   };
 };
+
+spinValue = new Animated.Value(0)
+
+// First set up animation 
+Animated.timing(
+    this.spinValue,
+  {
+    toValue: 1,
+    duration: 4000,
+    easing: Easing.linear,
+    useNativeDriver: true,
+    iterations: -1
+  }
+).start()
+
+// Second interpolate beginning and end values (in this case 0 and 1)
+const spin = this.spinValue.interpolate({
+  inputRange: [0, 1],
+  outputRange: ['0deg', '360deg']
+})
 
 export class HomeScreen extends React.Component {
   static navigationOptions = {
@@ -45,12 +68,21 @@ export class HomeScreen extends React.Component {
   }
   
   render() {
-    const adUnitID = "ca-app-pub-9496467954516087/3186808768";
+    let adUnitID = "ca-app-pub-9496467954516087/3186808768";
     if (Platform.OS === 'android') {
       adUnitID = "ca-app-pub-9496467954516087/1929567412"
     }
-    
+    let bannerSize = 'largeBanner'; 
+    if (imageDimensions.width > 475) {
+      bannerSize = 'fullBanner';
+    }
     const { tideData, loading } = this.props;
+    const loadingComponent = <View style={styles.loadingImageContainer}>
+      <Animated.Image
+        style={{transform: [{rotate: spin}] }}
+        source={BeachTidesLogo} 
+      />
+    </View>;
     return (
       <KeyboardShift>
         {() => (
@@ -67,18 +99,17 @@ export class HomeScreen extends React.Component {
               <View style={{ alignContent: 'center' }}>
                 <AdMobBanner
                   style={styles.bottomBanner}
-                  bannerSize="largeBanner"
+                  bannerSize={bannerSize}
                   adUnitID={adUnitID}
                   testDeviceID="EMULATOR"
                   didFailToReceiveAdWithError={this.bannerError}
                 />
               </View> :
-              <Image style={styles.image} source={BeachTides} />
+              <Image style={styles.image} source={BeachTides}  />
               }
             </View>
             <View style={styles.secondContainer}>
-            {/* { loading ? : <TideDisplay /> } */}
-              <TideDisplay />
+              { loading ? loadingComponent : <TideDisplay /> }
             </View>
             <View style={styles.searchContainer}>
               <SearchForm />
@@ -137,6 +168,14 @@ const styles = StyleSheet.create({
   secondContainer: {
     flex: 10,
     // backgroundColor: 'blue'
+  },
+  loadingImageContainer: {
+    flex: 1,
+    alignItems: 'center',
+    justifyContent: 'center'
+  },
+  loadingImage: {
+    resizeMode: 'contain',
   },
   searchContainer: {
     flex: 7,

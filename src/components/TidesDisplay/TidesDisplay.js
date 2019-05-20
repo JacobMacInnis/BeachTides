@@ -26,7 +26,7 @@ const mapStateToProps = state => {
 function makeTides(tideData) {
   const { location } = tideData;
   const tideArray = tideData.tideData;
-  console.log('TideArray.Length', tideData);
+  // console.log('TideArray.Length', tideData);
   let currentDate = null;
   const groupedTides = [];
   for (let i = 0; i < tideArray.length; i++) {
