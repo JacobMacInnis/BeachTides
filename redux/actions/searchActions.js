@@ -1,5 +1,7 @@
 import { AsyncStorage } from 'react-native';
 import { API_BASE_URL } from '../../config';
+import states from '../../src/utils/states';
+import moment from 'moment';
 
 export const SET_LOCATION = 'SET_LOCATION';
 export const setLocation = location => ({
@@ -30,20 +32,104 @@ export const getTidesSuccess = tideData => ({
   tideData
 });
 
-function buildAsyncSearchString(date, location) {
+export const getTides = (location, date) => async dispatch => {
+  dispatch(getTidesRequest());
+
+  let all = await AsyncStorage.getAllKeys();
+  console.log(all)
+  const asyncData = await retrieveData(date, location, dispatch);
+  
+  if (asyncData) {
+    console.log(asyncData, 'Got Async Data')
+    return dispatch(getTidesSuccess(asyncData));
+  }
+  console.log('No Data Locally, Requesting from server')
+  try {
+    let res = await fetchTides(location, date);
+    
+    let tideRes = await res.json();
+    console.log(tideRes, 'this is Tide Res');
+
+    const save = saveData(tideRes);
+    console.log('saving to AsyncStorage');
+    if (save) {
+      console.log('successfully saved to AsyncStorage');
+      return dispatch(getTidesSuccess(tideRes));
+    }
+  } catch (e) {
+    console.log('Error getting tides', e);
+    return dispatch(getTidesError(e));
+  }
+}
+
+const retrieveData = async (date, location, dispatch) => {
+  let alteredLocation = alterLocation(location, dispatch);
+  try {
+    const value = await AsyncStorage.getItem(alteredLocation);
+    // key = 'Holliston, MA' or '01945'
+    // {
+    //  state: 'MA',
+    //  city: 'Marblehead',
+    //  today: '05 21 2019',
+    //  todayTides: [{},{},{}],
+    //  tomorrow: '05 22 2019',
+    //  tomorrowTides: [{}.{},{},{}]
+    //  tideData: [{},{},{},{},{}]
+    // }
+    if (value !== null) {
+      let tides = JSON.parse(value);
+      if(checkDates(date, tides, alteredLocation)) {
+        return tides;
+      } else {
+        return;
+      }
+    }
+  } catch (error) {
+    return false;
+  }
+};
+
+function alterLocation(location, dispatch) {
   if (/^\d+$/.test(location)) {
-    return `${date}_${location}`;
+    if (/^\d{3,5}$/.test(location)) {
+      return location;
+    } else {
+      return dispatch(getTidesError({ status: 400, message: 'Zip-Code must have minimum 3 digits and maximum 5 digits'}));
+    }
   } else {
-    let city = location.split(',')[0];
-    city = city.trim();
-    city = city
-        .toLowerCase()
+    if (location.indexOf(',') > -1) {
+      let city = location.split(',')[0].trim();
+      let state = location.split(',')[1].trim();
+      city = city.toLowerCase()
         .split(' ')
         .map(letters => letters.charAt(0).toUpperCase() + letters.substring(1))
         .join(' ');
-    let state = location.split(',')[1];
-    state = state.trim().toUpperCase();
-    return `${date}_${location}`;
+      if (state.length > 2) {
+        state = state.toLowerCase();
+        if (states.hasOwnProperty(state)) {
+          state = states[state];
+          filter.state = state;
+        } else {
+          return dispatch(getTidesError({ status: 400, message: 'State can not be found'}));
+        }
+      } else {
+        state = state.toUpperCase().trim();
+        return `${city}, ${state}`;
+      }
+    } else {
+      return dispatch(getTidesError({ status: 400, message: 'City and State must be separated by a comma'}));
+    }
+  }
+}
+
+async function checkDates(date, tides, alteredLocation) {
+  if (tides.today === date || tides.tomorrow === date) {
+    return true;
+  } else {
+    console.log('Dates do not match removing Async Storage')
+      await removeTides(tides.zip_code);
+      await removeTides(`${tides.city}, ${tides.state}`);
+      return false;
   }
 }
 
@@ -51,149 +137,128 @@ async function fetchTides(location, date) {
   return await fetch(`${API_BASE_URL}/location?location=${location}&date=${date}`);
 }
 
-const jsonify = async res => {
-  try { 
-    
-    console.log(typeof res, 'trying')
-    const newRes = res.json();
-    console.log(newRes);
-    return newRes;
-  } catch(e) {
-    console.log('unable to fucking make json')
-    return false;
-  }
-}
-
-// async function asyncStringify(data) {
-//   return await JSON.stringify(data)
-// }
-
-async function setData(setString, jsonData) {
-   await AsyncStorage.setItem(setString, jsonData);
-}
-const storeData = async (setString, jsonData) => {
+async function removeTides(key) {
   try {
-    await AsyncStorage.setItem(setString, jsonData);
+    await AsyncStorage.removeItem(key);
     return true;
-  } catch (error) {
+  }
+  catch(exception) {
     return false;
   }
-};
-
-const retrieveData = async (string) => {
-  try {
-    const value = await AsyncStorage.getItem(string);
-    if (value !== null) {
-      console.log(JSON.parse(value))
-      return value;
-    }
-  } catch (error) {
-    return false;
-  }
-};
-
-export const getTides = (location, date) => async dispatch => {
-  dispatch(getTidesRequest());
-  const fakeData = [
-    {
-      date: '2019-05-17T09:02+0000',
-      dt: 1558083725,
-      height: -1.697,
-      type: 'Low',
-    },
-    {
-      date: '2019-05-17T15:05+0000',
-      dt: 1558105523,
-      height: 1.516,
-      type: 'High',
-    },
-      {
-      date: '2019-05-17T21:20+0000',
-      dt: 1558128011,
-      height: -1.508,
-      type: 'Low',
-    }
-  ];
-  const asyncSearchString = await buildAsyncSearchString(date, location);
-
-  const asyncData = await retrieveData(asyncSearchString);
-  
-  if (asyncData) {
-    console.log(async, 'Got Async Data')
-    return dispatch(getTidesSuccess(asyncSuccess));
-  }
-
-  console.log('No Data Locally, Requesting from server')
-  try {
-    let res = await fetchTides(location, date);
-    
-    let tideRes = await res.json();
-    console.log(tideRes, 'this is Tide Res');  
-    const save = saveData(tideRes);
-    if (save) {
-      return dispatch(getTidesSuccess(tideRes));
-    }
-  } catch (e) {
-    getTidesError(e)
-  }
-
-  // const stringData = JSON.stringify(fakeData);
-
-  // await storeData(asyncSearchString, stringData);
 }
-    //   console.log('AsyncStorage does not contain data');
-
-    //   console.log('Sending Request for Tides');
-    
-      // tideRes = tideRes.json();
-      // // if (tideRes)
-      // console.log(tideRes);
-      
-      // if (res.status === 200) {
-      //   console.log('Received Tides Response');
-      //   res = res.json();
-      //   // dispatch(getTidesSuccess(res));
-      //   console.log(res, 'RES')
-      //   let { date, city, state, tideData } = res;
-      //   const location = `${city}, ${state}`;
-      //   const asyncSearchString = buildAsyncSearchString(date, location);
-      //   tideData = JSON.stringify(tideDate);
-      //   console.log(asyncSearchString, 'SECOND STRING')
-      //   const saveData = await AsyncStorage.setItem(asyncSearchString, tideData);
-      //   if (saveData) {
-      //     return;
-      //   }
-      // } else {
-      //   res = res.json();
-      //   console.log('Received Error', res);
-      //   dispatch(getTidesError(res));
-      // }
 
 async function saveData(tideData) {
   try {
-    let { tideData: tideArray, city, state } = tideData;
-    let currentDate = tideArray[0].date;
-    let tideDays = [];
-    tideArray.map(tideObj => {
-      if (tideObj.date === currentDate) {
-        tideDays.push(tideOBJ);
-      } else {
-        currentDate = tideObj.date;
-        const tideDate = moment(tideObj.date).format('MM DD YYYY');
-        const asyncData = {
-          city,
-          state,
-          date: day,
-          tideData: tideDays
-        };
-        const store = storeData(tideDate, asyncData);
-        if (store) {
-          tideDays = [];
-        }
+    let { tideData: tideArray, city, state, zip_code } = tideData;
+    let today = moment(tideArray[0].date).format('MM DD YYYY');
+    if (today !== moment().format('MM DD YYYY')) {
+      return;
+    }
+    const tomorrow = moment().add(1, 'days').format('MM DD YYYY');
+    let todayTides = [];
+    let tomorrowTides = [];
+    
+    for (let i = 0; i < tideArray.length; i++) {
+      if (tideArray[i].date === today) {
+        todayTides.push(tideObj);
+      } else if (tideArray[i].date === tomorrow) {
+        tomorrowTides.push(tideObj);
       }
-    });
-    return true;
+    }
+    const tideDataObject = {
+      city,
+      state,
+      zip_code,
+      today,
+      todayTides,
+      tomorrow,
+      tomorrowTides,
+      tideData: tideArray
+    };
+    const asyncData = JSON.stringify(tideDataObject);
+    const storeCity = storeData(`${city}, ${state}`, asyncData);
+    if (storeCity) {
+      const storeZip = storeData(zip_code, asyncData);
+      if (storeZip) {
+        return true
+      }
+      else return false;
+    }
+    else return false;
   } catch(e) {
     return false;
   }
 }
+
+const storeData = async (setString, jsonData) => {
+  try {
+    console.log(setString, '<== string, data ==>', jsonData);
+    const save = await AsyncStorage.setItem(setString, jsonData);
+    if (save) {
+      console.log('Save confirmed')
+      return true;
+    }
+  } catch (error) {
+    return false;
+  }
+};
+
+export function clearAllTides() {
+  
+}
+
+// {
+//   "city": "Marblehead",
+//   "date": "05 21 2019",
+//   "state": "MA",
+//   "tideData": Array [
+//      {
+//       "date": "2019-05-21T05:38+0000",
+//       "dt": 1558417103,
+//       "height": 1.711,
+//       "type": "High",
+//     },
+//     {
+//       "date": "2019-05-21T12:19+0000",
+//       "dt": 1558441186,
+//       "height": -1.67,
+//       "type": "Low",
+//     },
+//     {
+//       "date": "2019-05-21T18:20+0000",
+//       "dt": 1558462821,
+//       "height": 1.305,
+//       "type": "High",
+//     },
+//     {
+//       "date": "2019-05-22T00:25+0000",
+//       "dt": 1558484700,
+//       "height": -1.257,
+//       "type": "Low",
+//     },
+//     {
+//       "date": "2019-05-22T06:21+0000",
+//       "dt": 1558506076,
+//       "height": 1.609,
+//       "type": "High",
+//     },
+//     {
+//       "date": "2019-05-22T13:03+0000",
+//       "dt": 1558530218,
+//       "height": -1.572,
+//       "type": "Low",
+//     },
+//     {
+//       "date": "2019-05-22T19:06+0000",
+//       "dt": 1558551973,
+//       "height": 1.217,
+//       "type": "High",
+//     },
+//     Object {
+//       "date": "2019-05-23T01:09+0000",
+//       "dt": 1558573742,
+//       "height": -1.161,
+//       "type": "Low",
+//     },
+//   ],
+// }

@@ -81,6 +81,7 @@ export class TideDisplay extends React.Component {
     let tideDisplay = null;
     let tides = null;
     if (tideData) {
+      console.log('TiDeDaTa', tideData)
       const { city, state } = tideData;
       tides = makeTides(tideData);
       tideDisplay = <View>
