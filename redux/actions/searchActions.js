@@ -35,25 +35,21 @@ export const getTidesSuccess = tideData => ({
 export const getTides = (location, date) => async dispatch => {
   dispatch(getTidesRequest());
 
-  let all = await AsyncStorage.getAllKeys();
-  console.log(all)
+  // let all = await AsyncStorage.getAllKeys();
+  
   const asyncData = await retrieveData(date, location, dispatch);
   
   if (asyncData) {
-    console.log(asyncData, 'Got Async Data')
     return dispatch(getTidesSuccess(asyncData));
   }
-  console.log('No Data Locally, Requesting from server')
   try {
     let res = await fetchTides(location, date);
     
     let tideRes = await res.json();
-    console.log(tideRes, 'this is Tide Res');
 
     const save = saveData(tideRes);
-    console.log('saving to AsyncStorage');
+
     if (save) {
-      console.log('successfully saved to AsyncStorage');
       return dispatch(getTidesSuccess(tideRes));
     }
   } catch (e) {
@@ -126,7 +122,6 @@ async function checkDates(date, tides, alteredLocation) {
   if (tides.today === date || tides.tomorrow === date) {
     return true;
   } else {
-    console.log('Dates do not match removing Async Storage')
       await removeTides(tides.zip_code);
       await removeTides(`${tides.city}, ${tides.state}`);
       return false;
@@ -192,10 +187,8 @@ async function saveData(tideData) {
 
 const storeData = async (setString, jsonData) => {
   try {
-    console.log(setString, '<== string, data ==>', jsonData);
     const save = await AsyncStorage.setItem(setString, jsonData);
     if (save) {
-      console.log('Save confirmed')
       return true;
     }
   } catch (error) {
@@ -204,7 +197,7 @@ const storeData = async (setString, jsonData) => {
 };
 
 export function clearAllTides() {
-  
+
 }
 
 // {
