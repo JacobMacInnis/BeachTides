@@ -17,9 +17,10 @@ const localDateTimeMachine = epoch => {
 }
 
 const mapStateToProps = state => {
-  const { tideData } = state.search;
+  const { tideData, error } = state.search;
   return {
-    tideData
+    tideData,
+    error
   };
 };
 
@@ -76,17 +77,25 @@ function makeTides(tideData) {
 export class TideDisplay extends React.Component {
 
   render() {
-    let { tideData } = this.props;
+    let { tideData, error } = this.props;
+    if (error) {
+      console.log('Error', error, 'Error')
+    }
     let tideDisplay = null;
     let tides = null;
     if (tideData) {
       const { city, state } = tideData;
+      console.log('Thursday', tideData, 'Thursday')
       tides = makeTides(tideData);
       tideDisplay = <View>
         <View style={{ margin: hp('2%'), padding: hp('1%'), borderRadius: 6, backgroundColor: 'rgba( 255, 255, 255, 0.8)'}}>
           <Text style={{ textAlign: 'center', fontSize: RF(4), fontWeight: '900' }}>{city}, {state}</Text>
         </View>
         {tides}
+      </View>
+    } else if (error) {
+      tideDisplay = <View style={{ margin: hp('4%'), padding: hp('1%'), borderRadius: 6, backgroundColor: 'rgba( 255, 255, 255, 0.8)'}}>
+        <Text style={{ color: 'blue', textAlign: 'center', fontSize: RF(4), fontWeight: '900' }}>{error.message}</Text>
       </View>
     }
     return (
@@ -101,9 +110,9 @@ export class TideDisplay extends React.Component {
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
-    // alignItems: 'center',
+    flex: 1, 
     // backgroundColor: 'rgba(0,0,0,0.5)',
+    // justifyContent: 'center',
     alignItems: 'center'
   }
 });
