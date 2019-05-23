@@ -78,14 +78,9 @@ export class TideDisplay extends React.Component {
 
   render() {
     let { tideData, error } = this.props;
-    if (error) {
-      console.log('Error', error, 'Error')
-    }
-    let tideDisplay = null;
-    let tides = null;
+    let tideDisplay = null, tides = null;
     if (tideData) {
       const { city, state } = tideData;
-      console.log('Thursday', tideData, 'Thursday')
       tides = makeTides(tideData);
       tideDisplay = <View>
         <View style={{ margin: hp('2%'), padding: hp('1%'), borderRadius: 6, backgroundColor: 'rgba( 255, 255, 255, 0.8)'}}>

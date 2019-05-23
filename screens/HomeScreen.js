@@ -30,10 +30,11 @@ const window = Dimensions.get('window');
 const imageDimensions = { height: window.height, width: window.width };
 
 const mapStateToProps = state => {
-  const { tideData, loading } = state.search;
+  const { tideData, loading, error } = state.search;
   return {
     tideData,
-    loading
+    loading,
+    error
   };
 };
 
@@ -76,7 +77,7 @@ export class HomeScreen extends React.Component {
     if (imageDimensions.width > 475) {
       bannerSize = 'fullBanner';
     }
-    const { tideData, loading } = this.props;
+    const { tideData, loading, error } = this.props;
     const loadingComponent = <View style={styles.loadingImageContainer}>
       <Animated.Image
         style={{transform: [{rotate: spin}] }}
@@ -95,7 +96,7 @@ export class HomeScreen extends React.Component {
         </View>
         <View style={styles.scrollView}>
             <View style={styles.imageContainer}>
-              { (tideData || loading) ? 
+              { (tideData || loading || error) ? 
               <View style={{ alignContent: 'center' }}>
                 <AdMobBanner
                   style={styles.bottomBanner}
