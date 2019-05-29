@@ -11,8 +11,26 @@ const mapStateToProps = state => {
 }
 
 export class LocationInput extends React.Component {
-  
+  constructor(props) {
+    super(props);
+    this.state = {
+      searchInput: '',
+      clearInput: false
+    };
+  }
+  shouldComponentUpdate(nextProps, nextState) {
+    if (this.state.searchInput !== nextState.searchInput) {
+      return true;
+    }
+  }
+  componentDidUpdate(prevProps, prevState) {
+    console.log(prevState)
+    // if (this.state.searchInput !== prevState.searchInput) {
+    //   return true;
+    // }
+  }
   setLocation(text) {
+
     return this.props.dispatch(setLocation(text));
   }
 
@@ -27,10 +45,21 @@ export class LocationInput extends React.Component {
         backgroundColor: 'white', 
         borderColor: 'gray', 
         borderWidth: 1}}
+        clearButtonMode="always"
         clearTextOnFocus={true}
         placeholder={'Zip or City, State'}
-        onChangeText={(text) => this.setLocation(text)}
-        value={this.props.location}>
+        // onChangeText={(text) => this.setLocation(text)}
+        // value={this.props.location}>
+        onChangeText={(searchInput)=>this.setState({
+          searchInput
+        })}
+        value={!this.state.clearInput ? this.state.searchInput : null}
+        onSubmitEditing={()=>{
+          this.setState({
+            clearInput:!this.state.clearInput,
+          })
+        }}
+      >
       </TextInput>
     )
   }
