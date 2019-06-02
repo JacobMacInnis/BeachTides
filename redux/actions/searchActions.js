@@ -35,22 +35,24 @@ export const getTidesSuccess = tideData => ({
 export const getTides = (location, date) => async dispatch => {
   dispatch(getTidesRequest());
 
-  // let all = await AsyncStorage.getAllKeys();
-  
   const asyncData = await retrieveData(date, location, dispatch);
-  
   if (asyncData) {
     return dispatch(getTidesSuccess(asyncData));
   }
   try {
+
     let res = await fetchTides(location, date);
-    
     let tideRes = await res.json();
-    if (tideRes.status === 200) {
+    console.log(tideRes.status);
+    if (tideRes.status === 200 || res.status === 200) {
+      console.log('here1', tideRes)
       const save = saveData(tideRes);
+
       if (save) {
         return dispatch(getTidesSuccess(tideRes));
       }
+    } else {
+      console.log('nope')
     }
   } catch (e) {
     console.log('Error getting tides', e);

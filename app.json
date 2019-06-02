@@ -31,7 +31,6 @@
     "android": {
       "versionCode": 1,
       "package": "com.beachtides.beachtides",
-      "playStoreUrl": "",
       "adaptiveIcon": {
         "foregroundImage": "./assets/images/BeachTides-icon.png",
         "backgroundImage": "./assets/images/BeachTides-background-icon.png"

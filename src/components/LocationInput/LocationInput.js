@@ -18,20 +18,20 @@ export class LocationInput extends React.Component {
       clearInput: false
     };
   }
-  shouldComponentUpdate(nextProps, nextState) {
-    if (this.state.searchInput !== nextState.searchInput) {
-      return true;
-    }
-  }
-  componentDidUpdate(prevProps, prevState) {
-    console.log(prevState)
-    // if (this.state.searchInput !== prevState.searchInput) {
-    //   return true;
-    // }
-  }
-  setLocation(text) {
 
-    return this.props.dispatch(setLocation(text));
+  getSnapshotBeforeUpdate(prevProps, prevState) {
+    if (prevState.searchInput !== this.state.searchInput) {
+      return this.state.searchInput;
+    }
+    return null;
+  }
+
+  componentDidUpdate(prevProps, prevState, snapshot) {
+    
+    if (snapshot !== null) {
+      const searchInput = this.state.searchInput;
+      return this.props.dispatch(setLocation(searchInput));  
+    }
   }
 
   render() {
