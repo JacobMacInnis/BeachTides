@@ -43,17 +43,13 @@ export const getTides = (location, date) => async dispatch => {
 
     let res = await fetchTides(location, date);
     let tideRes = await res.json();
-    console.log(tideRes.status);
     if (tideRes.status === 200 || res.status === 200) {
-      console.log('here1', tideRes)
       const save = saveData(tideRes);
 
       if (save) {
         return dispatch(getTidesSuccess(tideRes));
       }
-    } else {
-      console.log('nope')
-    }
+    } 
   } catch (e) {
     console.log('Error getting tides', e);
     return dispatch(getTidesError(e));
