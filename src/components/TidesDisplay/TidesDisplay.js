@@ -48,7 +48,6 @@ function makeTides(tideData) {
   days = groupedTides.map((tidesArray, index) => {
     let day;
     day = localDate(tidesArray[0].dt)
-    console.log(day, 'DAY')
     day = moment(day,'YYYY-MM-DD').format('dddd, MMMM Do');
     return (
       <View 
