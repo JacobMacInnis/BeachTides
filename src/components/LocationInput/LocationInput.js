@@ -1,5 +1,5 @@
 import React from 'react';
-import { TextInput } from 'react-native';
+import { View, Text, TextInput } from 'react-native';
 import {widthPercentageToDP as wp, heightPercentageToDP as hp} from 'react-native-responsive-screen';
 import { connect } from 'react-redux';
 import { setLocation } from '../../../redux/actions/searchActions';
@@ -10,59 +10,42 @@ const mapStateToProps = state => {
   };
 }
 
-export class LocationInput extends React.Component {
+
+export class LocationInput2 extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
       searchInput: '',
-      clearInput: false
-    };
-  }
-
-  getSnapshotBeforeUpdate(prevProps, prevState) {
-    if (prevState.searchInput !== this.state.searchInput) {
-      return this.state.searchInput;
-    }
-    return null;
-  }
-
-  componentDidUpdate(prevProps, prevState, snapshot) {
-    
-    if (snapshot !== null) {
-      const searchInput = this.state.searchInput;
-      return this.props.dispatch(setLocation(searchInput));  
     }
   }
 
+  onChange(searchInput) {
+    this.setState({searchInput});
+    return this.props.dispatch(setLocation(searchInput));  
+  }
   render() {
     return (
-      <TextInput style={{
-        textAlign: 'center',
-        width: wp('50%'),
-        height: '100%',
-        borderRadius: 6,
-        fontSize: 18,
-        backgroundColor: 'white', 
-        borderColor: 'gray', 
-        borderWidth: 1}}
-        clearButtonMode="always"
-        clearTextOnFocus={true}
-        placeholder={'Zip or City, State'}
-        // onChangeText={(text) => this.setLocation(text)}
-        // value={this.props.location}>
-        onChangeText={(searchInput)=>this.setState({
-          searchInput
-        })}
-        value={!this.state.clearInput ? this.state.searchInput : null}
-        onSubmitEditing={()=>{
-          this.setState({
-            clearInput:!this.state.clearInput,
-          })
-        }}
-      >
-      </TextInput>
+      <View>
+        <TextInput
+          style={{
+            textAlign: 'center',
+            width: wp('50%'),
+            height: '100%',
+            borderRadius: 10,
+            fontSize: 18,
+            backgroundColor: 'white', 
+            borderColor: 'gray', 
+            borderWidth: 1
+          }}
+          placeholder={'Zip or City, State'}
+          value={this.state.searchInput}
+          onChangeText={searchInput => this.onChange(searchInput)}
+          onFocus={() => this.setState({searchInput : ''})}
+        >
+        </TextInput>
+      </View>
     )
   }
 }
 
-export default connect(mapStateToProps)(LocationInput);
+export default connect(mapStateToProps)(LocationInput2);
