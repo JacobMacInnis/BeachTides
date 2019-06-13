@@ -47,16 +47,15 @@ export class SearchForm extends React.Component {
           <View style={{ flex: 3}}>
             <Image style={styles.image} source={BeachTides} />
           </View>
-          <View style={{ flex: 1 }}></View>
-          <View style={{ flex: 2 }}>
+          <View style={{ flex: 2 }}></View>
+          {/* <View style={{ flex: 2 }}>
             <Text style={{ fontSize: RF(2.5) }} >Zipcode or City, State</Text>
-          </View>
-          <View style={{ flex: 2 }}> 
-            {/* <LocationInput /> */}
+          </View> */}
+          <View style={{ flex: 3 }}> 
             <LocationInput2 />
           </View>
           <View style={{ flex: 1 }}></View>
-          <View style={{ flex: 2 }}>
+          <View style={{ flex: 3 }}>
             <DatePicker />
           </View>
           <View style={{ flex: 1 }}></View>

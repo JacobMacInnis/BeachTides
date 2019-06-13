@@ -18,6 +18,11 @@ export class LocationInput2 extends React.Component {
       searchInput: '',
     }
   }
+
+  onChange(searchInput) {
+    this.setState({searchInput});
+    return this.props.dispatch(setLocation(searchInput));  
+  }
   render() {
     return (
       <View>
@@ -26,14 +31,15 @@ export class LocationInput2 extends React.Component {
             textAlign: 'center',
             width: wp('50%'),
             height: '100%',
-            borderRadius: 6,
+            borderRadius: 10,
             fontSize: 18,
             backgroundColor: 'white', 
             borderColor: 'gray', 
             borderWidth: 1
           }}
+          placeholder={'Zip or City, State'}
           value={this.state.searchInput}
-          onChangeText={searchInput => this.setState({searchInput})}
+          onChangeText={searchInput => this.onChange(searchInput)}
           onFocus={() => this.setState({searchInput : ''})}
         >
         </TextInput>

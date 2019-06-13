@@ -41,6 +41,7 @@ class MyDatePicker extends Component {
           dateInput: {
             borderRadius: 10,
             backgroundColor: 'white',
+            borderColor: 'grey'
           },
           dateText: {
             fontSize: 18,
