@@ -92,7 +92,11 @@ export class TideDisplay extends React.Component {
         <View style={{ margin: hp('2%'), padding: hp('1%'), borderRadius: 6, backgroundColor: 'rgba( 255, 255, 255, 0.8)'}}>
           <Text style={{ textAlign: 'center', fontSize: RF(4), fontWeight: '900' }}>{city}, {state}</Text>
         </View>
-         {tides}
+          <ScrollView>
+            <View>
+              {tides}
+            </View>
+          </ScrollView>
         </View>
     } else if (error) {
       tideDisplay = <View style={{ margin: hp('4%'), padding: hp('1%'), borderRadius: 6, backgroundColor: 'rgba( 255, 255, 255, 0.8)'}}>
@@ -100,11 +104,9 @@ export class TideDisplay extends React.Component {
       </View>
     }
     return (
-      <ScrollView>
         <View style={styles.container}>
           {tideDisplay}
         </View>
-      </ScrollView>
     )
   }
 }

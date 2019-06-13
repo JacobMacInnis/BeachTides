@@ -8,9 +8,10 @@ import {
   View,
   Image
 } from 'react-native';
-import {widthPercentageToDP as wp, heightPercentageToDP as hp} from 'react-native-responsive-screen';
+import { widthPercentageToDP as wp, heightPercentageToDP as hp } from 'react-native-responsive-screen';
 import DatePicker from '../DatePicker/DatePicker';
-import LocationInput from '../LocationInput/LocationInput';
+// import LocationInput from '../LocationInput/LocationInput';
+import LocationInput2 from '../LocationInput/LocationInput2';
 import RF from "react-native-responsive-fontsize";
 import { getTides } from '../../../redux/actions/searchActions';
 import BeachTides from '../../../assets/images/BeachTides.png';
@@ -47,14 +48,18 @@ export class SearchForm extends React.Component {
             <Image style={styles.image} source={BeachTides} />
           </View>
           <View style={{ flex: 1 }}></View>
+          <View style={{ flex: 2 }}>
+            <Text style={{ fontSize: RF(2.5) }} >Zipcode or City, State</Text>
+          </View>
           <View style={{ flex: 2 }}> 
-            <LocationInput />
+            {/* <LocationInput /> */}
+            <LocationInput2 />
           </View>
           <View style={{ flex: 1 }}></View>
           <View style={{ flex: 2 }}>
             <DatePicker />
           </View>
-          <View style={{ flex: 2 }}></View>
+          <View style={{ flex: 1 }}></View>
           <View style={{ flex: 2 }}>
             <TouchableOpacity 
               style={{ borderColor: 'grey', width: wp('30%') }} 
