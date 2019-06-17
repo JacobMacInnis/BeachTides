@@ -15,9 +15,9 @@
     "splash": {
       "image": "./assets/images/BeachTides_Splash.png",
       "resizeMode": "contain",
-      "backgroundColor": "#ffffff"
+      "backgroundColor": "#00D4FF"
     },
-    "primaryColor": "#ffffff",
+    "primaryColor": "#00D4FF",
     "updates": {
       "fallbackToCacheTimeout": 0
     },
