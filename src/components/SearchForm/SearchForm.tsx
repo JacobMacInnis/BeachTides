@@ -12,7 +12,7 @@ import { widthPercentageToDP as wp, heightPercentageToDP as hp } from 'react-nat
 import DatePicker from '../DatePicker/DatePicker';
 import LocationInput from '../LocationInput/LocationInput';
 import RF from "react-native-responsive-fontsize";
-import { getTides } from '../../../redux/actions/searchActions';
+import { getTides } from '../../redux/actions/searchActions';
 import BeachTides from '../../../assets/images/BeachTides.png';
 
 const mapStateToProps = state => {

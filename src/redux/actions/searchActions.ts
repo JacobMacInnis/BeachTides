@@ -1,6 +1,6 @@
 import { AsyncStorage } from 'react-native';
-import { API_BASE_URL } from '../../config';
-import states from '../../src/utils/states';
+import { API_BASE_URL } from '../../../config';
+import states from '../../utils/states';
 import moment from 'moment';
 
 export const SET_LOCATION = 'SET_LOCATION';

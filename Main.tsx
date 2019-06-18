@@ -1,7 +1,7 @@
 import React from 'react';
 import { Platform, StatusBar, StyleSheet, View } from 'react-native';
 import { AppLoading, Asset, Font, Icon } from 'expo';
-import AppNavigator from './navigation/AppNavigator';
+import AppNavigator from './src/navigation/AppNavigator';
 
 export default class Main extends React.Component {
   state = {
@@ -41,7 +41,7 @@ export default class Main extends React.Component {
     ]);
   };
 
-  _handleLoadingError = error => {
+  _handleLoadingError = (error: string) => {
     // In this case, you might want to report the error to your error
     // reporting service, for example Sentry
     console.warn(error);

@@ -14,16 +14,16 @@ import {
   Easing
 } from 'react-native';
 import { WebBrowser, AdMobBanner } from 'expo';
- import { MonoText } from '../src/components/StyledText';
+ import { MonoText } from '../components/StyledText';
 import {widthPercentageToDP as wp, heightPercentageToDP as hp} from 'react-native-responsive-screen';
 import Beach from '../assets/images/Beach.jpg';
 import BeachTidesLogo from '../assets/images/BeachTidesLogo.png';
 import BeachTides from '../assets/images/BeachTides.png';
 // COMPONENTS
-import SearchForm from '../src/components/SearchForm/SearchForm';
-import TideDisplay from '../src/components/TidesDisplay/TidesDisplay';
-import { DismissKeyboard } from '../src/components/DismissKeyboard/DismissKeyboard';
-import KeyboardShift from '../src/components/KeyboardShift/KeyboardShift';
+import SearchForm from '../components/SearchForm/SearchForm';
+import TideDisplay from '../components/TidesDisplay/TidesDisplay';
+import { DismissKeyboard } from '../components/DismissKeyboard/DismissKeyboard';
+import KeyboardShift from '../components/KeyboardShift/KeyboardShift';
 
 
 const window = Dimensions.get('window');

@@ -1,7 +1,7 @@
 import React from 'react';
 import { AsyncStorage } from 'react-native';
 import { Provider } from 'react-redux';
-import store from './redux/store';
+import store from './src/redux/store';
 import Main from './Main';
 import moment from 'moment';
 
@@ -16,7 +16,7 @@ const retrieveLastPurge = async () => {
   }
  };
 
-const saveLastPurge = async (todayDate) => {
+const saveLastPurge = async (todayDate: string) => {
   try {
     await AsyncStorage.setItem('lastPurge', todayDate);
     return true;
@@ -26,8 +26,8 @@ const saveLastPurge = async (todayDate) => {
 };
 
 async function monthlyClear() {
-  const today = moment();
-  const lastPurge = retrieveLastPurge();
+  const today: any = moment();
+  const lastPurge: any = retrieveLastPurge();
   if (lastPurge) {
     if (moment().diff(lastPurge, 'days') >= 30) {
       await AsyncStorage.clear();

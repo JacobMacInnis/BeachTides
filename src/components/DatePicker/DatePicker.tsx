@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import DatePicker from 'react-native-datepicker';
 import { widthPercentageToDP } from 'react-native-responsive-screen';
 import { connect } from 'react-redux';
-import { setDate } from '../../../redux/actions/searchActions';
+import { setDate } from '../../redux/actions/searchActions';
 
 const mapStateToProps = state => {
   return{

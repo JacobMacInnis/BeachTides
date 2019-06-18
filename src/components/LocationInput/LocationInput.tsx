@@ -2,7 +2,7 @@ import React from 'react';
 import { View, Text, TextInput } from 'react-native';
 import {widthPercentageToDP as wp, heightPercentageToDP as hp} from 'react-native-responsive-screen';
 import { connect } from 'react-redux';
-import { setLocation } from '../../../redux/actions/searchActions';
+import { setLocation } from '../../redux/actions/searchActions';
 
 const mapStateToProps = state => {
   return {
