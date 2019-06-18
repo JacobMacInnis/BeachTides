@@ -26,8 +26,11 @@
     "uuid": "^3.3.2"
   },
   "devDependencies": {
+    "@types/expo": "^32.0.13",
+    "@types/react-native": "^0.57.63",
     "babel-preset-expo": "^5.0.0",
-    "jest-expo": "^32.0.0"
+    "jest-expo": "^32.0.0",
+    "typescript": "^3.5.2"
   },
   "private": true
 }
