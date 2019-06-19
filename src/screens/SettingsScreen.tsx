@@ -1,6 +1,5 @@
 import React from 'react';
 import { ScrollView, View, Text, Image, StyleSheet, Linking, Button } from 'react-native';
-import { connect } from 'react-redux';
 import { widthPercentageToDP as wp, heightPercentageToDP as hp } from 'react-native-responsive-screen';
 import RF from "react-native-responsive-fontsize";
 

@@ -4,21 +4,19 @@ import {
   Dimensions,
   Image,
   Platform,
-  ScrollView,
   StyleSheet,
   Text,
   View,
-  StatusBar, 
-  SafeAreaView,
   Animated,
   Easing
 } from 'react-native';
-import { WebBrowser, AdMobBanner } from 'expo';
- import { MonoText } from '../components/StyledText';
+import { AdMobBanner } from 'expo';
 import {widthPercentageToDP as wp, heightPercentageToDP as hp} from 'react-native-responsive-screen';
-import Beach from '../assets/images/Beach.jpg';
-import BeachTidesLogo from '../assets/images/BeachTidesLogo.png';
-import BeachTides from '../assets/images/BeachTides.png';
+import { BeachTidesState, BTError } from '../types/types';
+// IMAGES
+const Beach = require('../assets/images/Beach.jpg');
+const BeachTidesLogo = require('../assets/images/BeachTidesLogo.png');
+const BeachTides = require('../assets/images/BeachTides.png');
 // COMPONENTS
 import SearchForm from '../components/SearchForm/SearchForm';
 import TideDisplay from '../components/TidesDisplay/TidesDisplay';
@@ -29,7 +27,13 @@ import KeyboardShift from '../components/KeyboardShift/KeyboardShift';
 const window = Dimensions.get('window');
 const imageDimensions = { height: window.height, width: window.width };
 
-const mapStateToProps = state => {
+interface HomeScreenProps {
+  tideData: any;
+  loading: boolean;
+  error: BTError | null;
+}
+
+const mapStateToProps = (state: BeachTidesState): HomeScreenProps => {
   const { tideData, loading, error } = state.search;
   return {
     tideData,
@@ -38,27 +42,7 @@ const mapStateToProps = state => {
   };
 };
 
-spinValue = new Animated.Value(0)
-
-// First set up animation 
-Animated.timing(
-    this.spinValue,
-  {
-    toValue: 1,
-    duration: 4000,
-    easing: Easing.linear,
-    useNativeDriver: true,
-    iterations: -1
-  }
-).start()
-
-// Second interpolate beginning and end values (in this case 0 and 1)
-const spin = this.spinValue.interpolate({
-  inputRange: [0, 1],
-  outputRange: ['0deg', '360deg']
-})
-
-export class HomeScreen extends React.Component {
+export class HomeScreen extends React.Component<HomeScreenProps>  {
   static navigationOptions = {
     header: null,
   };
@@ -69,6 +53,25 @@ export class HomeScreen extends React.Component {
   }
   
   render() {
+    const spinValue = new Animated.Value(0)
+
+    // First set up animation 
+    Animated.timing(spinValue,
+      {
+        toValue: 1,
+        duration: 4000,
+        easing: Easing.linear,
+        useNativeDriver: true,
+        iterations: -1
+      }
+    ).start();
+    
+    // Second interpolate beginning and end values (in this case 0 and 1)
+    const spin = spinValue.interpolate({
+      inputRange: [0, 1],
+      outputRange: ['0deg', '360deg']
+    });
+
     let adUnitID = "ca-app-pub-9496467954516087/3186808768";
     if (Platform.OS === 'android') {
       adUnitID = "ca-app-pub-9496467954516087/1929567412"

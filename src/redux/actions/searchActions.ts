@@ -1,16 +1,17 @@
 import { AsyncStorage } from 'react-native';
 import { API_BASE_URL } from '../../../config';
-import states from '../../utils/states';
+import { states } from '../../utils/states';
 import moment from 'moment';
+import { BTError } from '../../types/types';
 
 export const SET_LOCATION = 'SET_LOCATION';
-export const setLocation = location => ({
+export const setLocation = (location: string) => ({
   type: SET_LOCATION,
   location
 });
 
 export const SET_DATE = 'SET_DATE';
-export const setDate = date => ({
+export const setDate = (date: string) => ({
   type: SET_DATE,
   date
 });
@@ -21,18 +22,18 @@ export const getTidesRequest = () => ({
 });
 
 export const GET_TIDES_ERROR = 'GET_TIDES_ERROR';
-export const getTidesError = error => ({
+export const getTidesError = (error: BTError) => ({
   type: GET_TIDES_ERROR,
   error
 });
 
 export const GET_TIDES_SUCCESS = 'GET_TIDES_SUCCESS';
-export const getTidesSuccess = tideData => ({
+export const getTidesSuccess = (tideData: any) => ({
   type: GET_TIDES_SUCCESS,
   tideData
 });
 
-export const getTides = (location, date) => async dispatch => {
+export const getTides = (location: string, date: string) => async (dispatch: any) => {
   dispatch(getTidesRequest());
 
   const asyncData = await retrieveData(date, location, dispatch);
@@ -59,7 +60,7 @@ export const getTides = (location, date) => async dispatch => {
   }
 }
 
-const retrieveData = async (date, location, dispatch) => {
+const retrieveData = async (date: string, location: string, dispatch: any) => {
   let alteredLocation = alterLocation(location, dispatch);
   try {
     const value = await AsyncStorage.getItem(alteredLocation);
@@ -86,7 +87,7 @@ const retrieveData = async (date, location, dispatch) => {
   }
 };
 
-function alterLocation(location, dispatch) {
+function alterLocation(location: string, dispatch: any) {
   if (/^\d+$/.test(location)) {
     if (/^\d{3,5}$/.test(location)) {
       return location;
@@ -96,7 +97,7 @@ function alterLocation(location, dispatch) {
   } else {
     if (location.indexOf(',') > -1) {
       let city = location.split(',')[0].trim();
-      let state = location.split(',')[1].trim();
+      let state: string = location.split(',')[1].trim();
       city = city.toLowerCase()
         .split(' ')
         .map(letters => letters.charAt(0).toUpperCase() + letters.substring(1))
@@ -105,7 +106,6 @@ function alterLocation(location, dispatch) {
         state = state.toLowerCase();
         if (states.hasOwnProperty(state)) {
           state = states[state];
-          filter.state = state;
         } else {
           return dispatch(getTidesError({ status: 400, message: 'State can not be found'}));
         }
@@ -119,7 +119,7 @@ function alterLocation(location, dispatch) {
   }
 }
 
-async function checkDates(date, tides, alteredLocation) {
+async function checkDates(date: string, tides: any) {
   if (tides.today === date || tides.tomorrow === date) {
     return true;
   } else {
@@ -129,11 +129,11 @@ async function checkDates(date, tides, alteredLocation) {
   }
 }
 
-async function fetchTides(location, date) {
+async function fetchTides(location: string, date: string) {
   return await fetch(`${API_BASE_URL}/location?location=${location}&date=${date}`);
 }
 
-async function removeTides(key) {
+async function removeTides(key: string) {
   try {
     await AsyncStorage.removeItem(key);
     return true;
@@ -143,7 +143,7 @@ async function removeTides(key) {
   }
 }
 
-async function saveData(tideData) {
+async function saveData(tideData: any) {
   try {
     let { tideData: tideArray, city, state, zip_code } = tideData;
     let today = moment(tideArray[0].date).format('MM DD YYYY');
@@ -186,7 +186,7 @@ async function saveData(tideData) {
   }
 }
 
-const storeData = async (setString, jsonData) => {
+const storeData = async (setString: string, jsonData: any) => {
   try {
     const save = await AsyncStorage.setItem(setString, jsonData);
     if (save) {
